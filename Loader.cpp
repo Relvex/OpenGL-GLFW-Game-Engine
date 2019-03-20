@@ -4,13 +4,9 @@
 #include "Loader.h"
 #include <vector>
 
-Loader::Loader()
-{
-}
-
 int Loader::createVAO()
 {
-	GLuint vaoID = 1;
+	GLuint vaoID;
 	glGenVertexArrays(1, &vaoID);
 	glBindVertexArray(vaoID);
 	return vaoID;
@@ -18,7 +14,7 @@ int Loader::createVAO()
 
 void Loader::storeDataInAttribute(int attributeNumber, std::vector<float> data)
 {
-	GLuint vboID = 0;
+	GLuint vboID;
 	glGenBuffers(1, &vboID);
 	glBindBuffer(GL_ARRAY_BUFFER, vboID);
 	glBufferData(GL_ARRAY_BUFFER, data.size() * sizeof(float), data.data(), GL_STATIC_DRAW);

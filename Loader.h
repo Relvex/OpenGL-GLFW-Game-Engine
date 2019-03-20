@@ -4,7 +4,6 @@
 class Loader
 {
 public:
-	Loader();
 	RawModel loadToVAO(std::vector<float>);
 private:
 	int createVAO();

@@ -66,7 +66,34 @@ int main()
 		-0.5f,  0.5f, 0.0f
 	};
 
-	RawModel model = loader->loadToVAO(vertices);
+	std::vector<float> verticesTopLeft = {
+		-1.0f,  1.0f, 0.0f,
+		-1.0f,  0.0f, 0.0f,
+		 0.0f,  1.0f, 0.0f,
+	};
+
+	std::vector<float> verticesTopRight = {
+		 1.0f,  1.0f, 0.0f,
+		 1.0f,  0.0f, 0.0f,
+		 0.0f,  1.0f, 0.0f,
+	};
+
+	std::vector<float> verticesBottomLeft = {
+		-1.0f, -1.0f, 0.0f,
+		-1.0f,  0.0f, 0.0f,
+		 0.0f, -1.0f, 0.0f,
+	};
+
+	std::vector<float> verticesBottomRight = {
+		 1.0f, -1.0f, 0.0f,
+		 1.0f,  0.0f, 0.0f,
+		 0.0f, -1.0f, 0.0f,
+	};
+
+	RawModel topLeft = loader->loadToVAO(verticesTopLeft);
+	RawModel topRight = loader->loadToVAO(verticesTopRight);
+	RawModel bottomLeft = loader->loadToVAO(verticesBottomLeft);
+	RawModel bottomRight = loader->loadToVAO(verticesBottomRight);
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -78,9 +105,27 @@ int main()
 		glViewport(0, 0, width, height);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glBindVertexArray(model.getVaoID());
+		glBindVertexArray(topLeft.getVaoID());
 		glEnableVertexAttribArray(0);
-		glDrawArrays(GL_TRIANGLES, 0, model.getVertexCount());
+		glDrawArrays(GL_TRIANGLES, 0, topLeft.getVertexCount());
+		glDisableVertexAttribArray(0);
+		glBindVertexArray(0);
+
+		glBindVertexArray(topRight.getVaoID());
+		glEnableVertexAttribArray(0);
+		glDrawArrays(GL_TRIANGLES, 0, topRight.getVertexCount());
+		glDisableVertexAttribArray(0);
+		glBindVertexArray(0);
+
+		glBindVertexArray(bottomLeft.getVaoID());
+		glEnableVertexAttribArray(0);
+		glDrawArrays(GL_TRIANGLES, 0, bottomLeft.getVertexCount());
+		glDisableVertexAttribArray(0);
+		glBindVertexArray(0);
+
+		glBindVertexArray(bottomRight.getVaoID());
+		glEnableVertexAttribArray(0);
+		glDrawArrays(GL_TRIANGLES, 0, bottomRight.getVertexCount());
 		glDisableVertexAttribArray(0);
 		glBindVertexArray(0);
 
