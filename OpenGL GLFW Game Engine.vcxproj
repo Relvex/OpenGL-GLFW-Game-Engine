@@ -160,12 +160,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Loader.h" />
+    <ClInclude Include="GLUtils.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="RawModel.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Loader.cpp" />
+    <ClCompile Include="GLUtils.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

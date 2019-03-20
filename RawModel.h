@@ -3,8 +3,8 @@ class RawModel
 {
 public:
 	RawModel(int, int);
-	int getVaoID() const { return vaoID; };
-	int getVertexCount() const { return vertexCount; };
+	int getVaoID(void) const { return vaoID; };
+	int getVertexCount(void) const { return vertexCount; };
 private:
 	int vaoID;
 	int vertexCount;

@@ -1,9 +1,11 @@
 #include "pch.h"
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include <iostream>
+
 #include "RawModel.h"
 #include "Loader.h"
+
+#include <iostream>
 
 #pragma comment(lib,"opengl32.lib")
 #pragma comment(lib,"glu32.lib")
@@ -55,8 +57,6 @@ int main()
 
 	glfwSwapInterval(0);
 
-	Loader* loader = new Loader();
-
 	std::vector<float> vertices = {
 		-0.5f,  0.5f, 0.0f,
 		-0.5f, -0.5f, 0.0f,
@@ -66,34 +66,7 @@ int main()
 		-0.5f,  0.5f, 0.0f
 	};
 
-	std::vector<float> verticesTopLeft = {
-		-1.0f,  1.0f, 0.0f,
-		-1.0f,  0.0f, 0.0f,
-		 0.0f,  1.0f, 0.0f,
-	};
-
-	std::vector<float> verticesTopRight = {
-		 1.0f,  1.0f, 0.0f,
-		 1.0f,  0.0f, 0.0f,
-		 0.0f,  1.0f, 0.0f,
-	};
-
-	std::vector<float> verticesBottomLeft = {
-		-1.0f, -1.0f, 0.0f,
-		-1.0f,  0.0f, 0.0f,
-		 0.0f, -1.0f, 0.0f,
-	};
-
-	std::vector<float> verticesBottomRight = {
-		 1.0f, -1.0f, 0.0f,
-		 1.0f,  0.0f, 0.0f,
-		 0.0f, -1.0f, 0.0f,
-	};
-
-	RawModel topLeft = loader->loadToVAO(verticesTopLeft);
-	RawModel topRight = loader->loadToVAO(verticesTopRight);
-	RawModel bottomLeft = loader->loadToVAO(verticesBottomLeft);
-	RawModel bottomRight = loader->loadToVAO(verticesBottomRight);
+	RawModel rectangle = Loader::loadToVAO(vertices);
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -105,35 +78,18 @@ int main()
 		glViewport(0, 0, width, height);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glBindVertexArray(topLeft.getVaoID());
+		glBindVertexArray(rectangle.getVaoID());
 		glEnableVertexAttribArray(0);
-		glDrawArrays(GL_TRIANGLES, 0, topLeft.getVertexCount());
+		glDrawArrays(GL_TRIANGLES, 0, rectangle.getVertexCount());
 		glDisableVertexAttribArray(0);
 		glBindVertexArray(0);
 
-		glBindVertexArray(topRight.getVaoID());
-		glEnableVertexAttribArray(0);
-		glDrawArrays(GL_TRIANGLES, 0, topRight.getVertexCount());
-		glDisableVertexAttribArray(0);
-		glBindVertexArray(0);
-
-		glBindVertexArray(bottomLeft.getVaoID());
-		glEnableVertexAttribArray(0);
-		glDrawArrays(GL_TRIANGLES, 0, bottomLeft.getVertexCount());
-		glDisableVertexAttribArray(0);
-		glBindVertexArray(0);
-
-		glBindVertexArray(bottomRight.getVaoID());
-		glEnableVertexAttribArray(0);
-		glDrawArrays(GL_TRIANGLES, 0, bottomRight.getVertexCount());
-		glDisableVertexAttribArray(0);
-		glBindVertexArray(0);
+		printf("%i\n", time);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
 
-	loader->~Loader();
 	glfwDestroyWindow(window);
 	glfwTerminate();
 }
