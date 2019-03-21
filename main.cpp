@@ -3,7 +3,7 @@
 #include <GLFW/glfw3.h>
 
 #include "RawModel.h"
-#include "Loader.h"
+#include "GLUtils.h"
 
 #include <iostream>
 
@@ -61,30 +61,30 @@ int main()
 		-0.5f,  0.5f, 0.0f,
 		-0.5f, -0.5f, 0.0f,
 		 0.5f, -0.5f, 0.0f,
-		 0.5f, -0.5f, 0.0f,
-		 0.5f,  0.5f, 0.0f,
-		-0.5f,  0.5f, 0.0f
+		 0.5f,  0.5f, 0.0f
 	};
 
-	RawModel rectangle = Loader::loadToVAO(vertices);
+	std::vector<unsigned int> test = {
+		0, 1, 3,
+		3, 1, 2
+	};
+
+	RawModel rectangle = GLUtils::loadToVAO(vertices, test);
 
 	while (!glfwWindowShouldClose(window))
 	{
-		double time = glfwGetTime();
-
 		int width, height;
 		glfwGetFramebufferSize(window, &width, &height);
 
 		glViewport(0, 0, width, height);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClearColor(0.85f, 0.9f, 1.0f, 1.0f);
 
 		glBindVertexArray(rectangle.getVaoID());
 		glEnableVertexAttribArray(0);
-		glDrawArrays(GL_TRIANGLES, 0, rectangle.getVertexCount());
+		glDrawElements(GL_TRIANGLES, rectangle.getVertexCount(), GL_UNSIGNED_INT, (void*)0);
 		glDisableVertexAttribArray(0);
 		glBindVertexArray(0);
-
-		printf("%i\n", time);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
