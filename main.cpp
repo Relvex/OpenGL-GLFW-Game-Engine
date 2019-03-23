@@ -4,6 +4,7 @@
 
 #include "RawModel.h"
 #include "GLUtils.h"
+#include "ShaderProgram.h"
 
 #include <iostream>
 
@@ -21,7 +22,7 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 		glfwSetWindowShouldClose(window, GLFW_TRUE);
 }
 
-void setup(GLFWwindow* &window)
+void setup(GLFWwindow*& window)
 {
 	glfwSetErrorCallback(error_callback);
 
@@ -71,6 +72,8 @@ int main()
 
 	RawModel rectangle = GLUtils::loadToVAO(vertices, test);
 
+	ShaderProgram shader = ShaderProgram("vertexShader.glsl", "fragmentShader.glsl");
+
 	while (!glfwWindowShouldClose(window))
 	{
 		int width, height;
@@ -80,16 +83,21 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(0.85f, 0.9f, 1.0f, 1.0f);
 
+		shader.start();
+
 		glBindVertexArray(rectangle.getVaoID());
 		glEnableVertexAttribArray(0);
-		glDrawElements(GL_TRIANGLES, rectangle.getVertexCount(), GL_UNSIGNED_INT, (void*)0);
+		glDrawElements(GL_TRIANGLES, rectangle.getVertexCount(), GL_UNSIGNED_INT, 0);
 		glDisableVertexAttribArray(0);
 		glBindVertexArray(0);
+
+		shader.stop();
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
 
+	shader.clean();
 	glfwDestroyWindow(window);
 	glfwTerminate();
 }
